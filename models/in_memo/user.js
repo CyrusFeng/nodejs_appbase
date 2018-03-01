@@ -2,6 +2,7 @@
 
 class User {
   constructor(username, password) {
+    this._id = ++User.id;
     this.username = username;
     this.password = password;
   }
@@ -23,6 +24,9 @@ class User {
   static getOneByName(username){   
     return User.users.find(u=>u.username == username);
   }
+  static getOneByID(userId){   
+    return User.users.find(u=>u._id == userId);
+  }
   getName() {
     return this.username;
   }
@@ -36,5 +40,5 @@ class User {
 }
 
 User.users = [];
-
+User.id = 0;
 module.exports = User;
