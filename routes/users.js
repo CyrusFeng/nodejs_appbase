@@ -34,12 +34,21 @@ router.post('/', function (req, res, next) {
 
 //插入订阅信息
 router.post('/:userId/subscription', function (req, res, next) {
-  try {
-    const sub = UserService.createSubscription(req.params.userId, req.body.url);
-    res.json(sub);
-  } catch (error) {
-    next(error)
-  }
+
+  (async () => {
+    try {
+      const sub = await UserService.createSubscription(req.params.userId, req.body.url);
+      res.json(sub);
+    } catch (error) {
+      next(error)
+    }
+  })().then(r => {
+    console.log(r)
+  }).catch(e => {
+    console.log(e)
+  })
+
+  
 });
 
 
