@@ -4,17 +4,31 @@ var router = express.Router();
 const UserService = require('../services/user_service');
 
 /* GET users listing. */
-// router.route('/')
-// .get((req, res, next)=>{
-//   const user = UserService.getAllUsers()
-//   res.locals.user = user;
-//   res.render('user');
-// })
+router.route('/')
+  .get((req, res, next) => {
+    (async () => {
+      const user = await UserService.getAllUsers()
+      res.locals.user = user;
+      res.render('user');
+    })().then(r => {
+      console.log(r)
+    }).catch(e => {
+      console.log(e)
+    })
+
+  })
 
 
 router.post('/', function (req, res, next) {
-  const user = UserService.addNewUser(req.body.username,req.body.password);
-  res.json(user);
+
+  (async () => {
+    const user = await UserService.addNewUser(req.body.username, req.body.password);
+    res.json(user);
+  })().then(r => {
+    console.log(r)
+  }).catch(e => {
+    console.log(e)
+  })
 });
 
 
