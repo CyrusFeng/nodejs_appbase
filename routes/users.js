@@ -2,41 +2,46 @@ var express = require('express');
 var router = express.Router();
 
 const UserService = require('../services/user_service');
+const HttpReqParamError = require('../errors/http_request_param_error');
 
 /* GET users listing. */
 router.route('/')
   .get((req, res, next) => {
     (async () => {
+      throw new HttpReqParamError('page','请指定页码','page can not be empty');
       const user = await UserService.getAllUsers()
-      res.locals.user = user;
-      res.render('user');
+      res.locals.user = user;      
     })().then(r => {
-      console.log(r)
+      res.render('user');
     }).catch(e => {
-      console.log(e)
+      next(e)
     })
 
   })
 
 
-router.post('/', function (req, res, next) {
+// router.post('/', function (req, res, next) {
 
-  (async () => {
-    const user = await UserService.addNewUser(req.body.username, req.body.password);
-    res.json(user);
-  })().then(r => {
-    console.log(r)
-  }).catch(e => {
-    console.log(e)
-  })
-});
+//   (async () => {
+//     const user = await UserService.addNewUser(req.body.username, req.body.password);
+//     res.json(user);
+//   })().then(r => {
+//     console.log(r)
+//   }).catch(e => {
+//     console.log(e)
+//   })
+// });
 
 
 //插入订阅信息
 router.post('/:userId/subscription', function (req, res, next) {
-
   (async () => {
     try {
+      const userId = req.params.userId;
+      console.log(userId)
+      if (userId.length<2) {
+        throw new HttpReqParamError('userId','用户id不能为空','userId can not be empty')
+      }
       const sub = await UserService.createSubscription(req.params.userId, req.body.url);
       res.json(sub);
     } catch (error) {
@@ -45,7 +50,7 @@ router.post('/:userId/subscription', function (req, res, next) {
   })().then(r => {
     console.log(r)
   }).catch(e => {
-    console.log(e)
+    console.log('e',e)
   })
 
   

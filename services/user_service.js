@@ -23,6 +23,7 @@ module.exports.createSubscription = async function(userID,url) {
   if (!user) {
     throw Error('No such user');
   }
+  
   const sub = await Subscription.insert(userID,url);
   return sub;
 }
