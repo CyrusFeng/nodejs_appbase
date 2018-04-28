@@ -48,4 +48,11 @@ app.use(errorHandler());
 //   res.render('error');
 // });
 
+
+process.on('uncanghtException',(err)=>{
+
+})
+process.on('unhandlerReject',(err)=>{
+  
+})
 module.exports = app;

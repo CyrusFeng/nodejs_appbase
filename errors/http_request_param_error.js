@@ -4,7 +4,7 @@ const ERROR_CODE = 4000000;
 
 class HttpReqParamError extends HttpBaseError{
   constructor(paramName,desc,msg){
-    super(200,desc,ERROR_CODE,`${paramName} wrong:${msg}`)
+    super(400,desc,ERROR_CODE,`${paramName} wrong:${msg}`)
   }
 }
 
